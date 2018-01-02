@@ -1,0 +1,42 @@
+Planning and Implementation of Grade Calculator
+
+Name: Gradulator? (Subject to change)
+
+This app will be designed based on the Model View Controller architecthure 
+
+Purpose of the App
+------------------------------
+This app will be able to track a user's grade per course showing their current grade in a course, a goal they have set,
+and lastly the averages they will need to achieve those goals. 
+
+The app wil be very flexible, Users will be able to easily adjust and change their goal to see the averages they will need for many
+situtions. 
+For example:
+    Users will be able to see what their current grade is after recieving a mark for a test, midterm, quiz, assignment, etc. While at
+    The same time see what scores they will need for upcoming evaluations in order to reciece a grade that they have set as their goal.
+
+Users will input the items on their syllabus for a given course, as well as the syllabus item's weight towards their final grade. This will
+allow flexibility of our system since not every course's syllabus is the same.
+
+Functionality
+---------------------------
+This app must be quick and easy to use. User's often times use their calculators to find out this information, this app will release them
+from that obligation and do all the calculations for them. User's must feel that it's worth using the app over a simple calculator, therefore, 
+the app must be quick and easy to use.
+
+
+
+Defining our Model's
+
+Courses:
+ - String : Course Title
+ - Double: Current Grade
+ - Double: Target Grade
+ - ArrayList<SyllabusItem>: Syllabus
+
+ Syllabus:
+ - String : Item name
+ - Double: Weight
+ - Double: Grade Achieved
+ - Double: Grade Needed
+
