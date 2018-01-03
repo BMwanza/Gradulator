@@ -18,9 +18,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@id/syllabus_item_title"
-        tools:text="Score"/>
+        tools:text="Score"
+        android:digits="0123456789"
+        android:inputType="numberDecimal"/>
 
     <TextView
+        android:id="@+id/syllabus_item_score_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="7pt"
