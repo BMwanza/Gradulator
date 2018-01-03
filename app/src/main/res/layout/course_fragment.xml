@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/target_versus_grade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/target_grade_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/target_grade_string"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:id="@+id/current_grade_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_grade_string"
+           android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"/>
+
+        <EditText
+            android:id="@+id/edit_target_grade_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/set_target_grade_string"
+            android:textSize="7pt"
+            android:layout_below="@id/target_grade_id"
+            android:layout_alignLeft="@id/target_grade_id"/>
+
+        <View
+            android:id="@+id/target_current_divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:layout_centerInParent="true"
+            android:layout_alignBottom="@id/edit_target_grade_id">
+        </View>
+
+
+
+
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/syllabus_item_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</LinearLayout>
