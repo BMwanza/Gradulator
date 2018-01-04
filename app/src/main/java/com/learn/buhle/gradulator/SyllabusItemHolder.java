@@ -21,9 +21,14 @@ public class SyllabusItemHolder extends RecyclerView.ViewHolder {
 
         //Link the views of the layout
         mSyllabusItemTitle = itemView.findViewById(R.id.syllabus_item_title);
-        mSyllabusItemScore = itemView.findViewById(R.id.current_grade_score);
+        mSyllabusItemScore = itemView.findViewById(R.id.syllabus_item_score);
         mScoreState = itemView.findViewById(R.id.syllabus_item_score_state);
+    }
 
-
+    public void bindToData(SyllabusItem item)
+    {
+        mSyllabusItemTitle.setText(item.getItemName());
+        mSyllabusItemScore.setText(Double.toString(item.getNeededGrade() * 100.0) + "%");
+        mScoreState.setText(R.string.needed_grade);
     }
 }

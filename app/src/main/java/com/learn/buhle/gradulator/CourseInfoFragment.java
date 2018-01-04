@@ -4,9 +4,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by BMwanza on 1/2/2018.
@@ -14,7 +20,14 @@ import android.view.ViewGroup;
 
 public class CourseInfoFragment extends Fragment {
 
+    private Course mCourse;
+
+    private TextView mTargetGradeTextView;
+    private TextView mCurrentGradeScore;
+    private EditText mEditTargetView;
+
     private RecyclerView mRecyclerView;
+    private SyllabusItemAdapter mSyllabusItemAdapter;
 
 
 
@@ -24,12 +37,49 @@ public class CourseInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+
+        mCourse = new Course("COMP 2160");
         View view = inflater.inflate(R.layout.course_fragment, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.syllabus_item_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mTargetGradeTextView = (TextView) view.findViewById(R.id.target_grade_id);
+        mCurrentGradeScore = (TextView) view.findViewById(R.id.current_grade_score);
+        mEditTargetView = (EditText) view.findViewById(R.id.edit_target_grade_id);
+
+        mEditTargetView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_DONE)
+                {
+                    mEditTargetView.setText(textView.getText());
+                    mCourse.setTargetGrade(Double.parseDouble(textView.getText().toString()));
+                    updateInterface(0);
+                }
+
+                return true;
+            }
+        });
+
+        updateInterface(0);
+
         return view;
+    }
+
+    private void updateInterface(int position)
+    {
+
+        if (mSyllabusItemAdapter == null)
+        {
+            mSyllabusItemAdapter = new SyllabusItemAdapter(mCourse.getSyllabus());
+            mRecyclerView.setAdapter(mSyllabusItemAdapter);
+        }
+        else
+        {
+            mSyllabusItemAdapter.setSyllabusItems(mCourse.getSyllabus());
+            mSyllabusItemAdapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -39,8 +89,20 @@ public class CourseInfoFragment extends Fragment {
     The Adapter that will be a mediator bewtween the View holder and the Recycler
      */
     private class SyllabusItemAdapter extends RecyclerView.Adapter<SyllabusItemHolder> {
-        @Override
 
+        private ArrayList<SyllabusItem> mSyllabusItems;
+
+
+        public SyllabusItemAdapter(ArrayList<SyllabusItem> syllabus)
+        {
+            mSyllabusItems = syllabus;
+        }
+
+        public void setSyllabusItems(ArrayList<SyllabusItem> syllabus)
+        {
+            mSyllabusItems = syllabus;
+        }
+        @Override
         /*
          *Called by the Recycler View when time to show a new item in the list
          *Creates a view and wraps it in a view holder
@@ -58,14 +120,15 @@ public class CourseInfoFragment extends Fragment {
          */
         public void onBindViewHolder(SyllabusItemHolder holder, int position) {
 
-            //The holder will show the piece of data of the Syllabus Item at n position
+            SyllabusItem item = mSyllabusItems.get(position);
+            holder.bindToData(item);
 
         }
 
 
         @Override
         public int getItemCount() {
-            return 0;
+            return mSyllabusItems.size();
         }
     }
 

@@ -2,15 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="24dp">
 
 
     <TextView
         android:id="@+id/syllabus_item_title"
+        android:textSize="12pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Syllabus Item"/>
+        tools:text="Syllabus Item"
+        android:layout_centerVertical="true"/>
 
     <EditText
         android:id="@+id/syllabus_item_score"
@@ -20,15 +22,17 @@
         android:layout_alignBaseline="@id/syllabus_item_title"
         tools:text="Score"
         android:digits="0123456789"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal"
+        android:layout_marginTop="0dp"/>
 
     <TextView
         android:id="@+id/syllabus_item_score_state"
+        android:text="@string/needed_grade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="7pt"
-        android:layout_alignRight="@id/syllabus_item_score"
-        android:layout_above="@id/syllabus_item_score">
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/syllabus_item_score">
     </TextView>
 
 

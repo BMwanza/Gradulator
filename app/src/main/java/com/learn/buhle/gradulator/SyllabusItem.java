@@ -6,20 +6,84 @@ package com.learn.buhle.gradulator;
 
 public class SyllabusItem extends ListItem {
 
+    private static final double NOT_MARKED = Double.MIN_VALUE;
+
     private String mItemName;
     private double mWeight;
     private double mGradeAchieved;
     private double mNeededGrade;
+    private boolean isMarked;
 
     public SyllabusItem(String name, double weight)
     {
         mItemName = name;
         mWeight = weight;
+        isMarked = false;
+        mGradeAchieved = NOT_MARKED;
+    }
+
+    public void setItemName(String itemName)
+    {
+        mItemName = itemName;
+    }
+
+    public void setWeight(double weight)
+    {
+        mWeight = weight;
+    }
+
+    public void setGradeAchieved(double gradeAchieved)
+    {
+        if(Double.compare(NOT_MARKED, gradeAchieved) == 0)
+        {
+            isMarked = false;
+        }
+        else
+        {
+            isMarked = true;
+        }
+        mGradeAchieved = gradeAchieved;
+    }
+
+    public void setNeededGrade(double neededGrade)
+    {
+        mNeededGrade = neededGrade;
     }
 
 
-    @Override
-    public String toString() {
+
+    public String getItemName() {
         return mItemName;
     }
+
+    public double getWeight()
+    {
+        return mWeight;
+    }
+
+    public double getGradeAchieved()
+    {
+        return mGradeAchieved;
+    }
+
+    public double getNeededGrade()
+    {
+        return mNeededGrade;
+    }
+
+    /*
+    If the achived Grade is set to our special value then it is not yet marked
+     */
+    public boolean isMarked()
+    {
+        return 0 != Double.compare(NOT_MARKED, mGradeAchieved) ;
+    }
+
+    @Override
+    public String toString()
+
+    {
+        return mItemName;
+    }
+
 }
