@@ -40,6 +40,19 @@ public class Course extends ListItem {
         return added;
     }
 
+
+    public void updateMarks()
+    {
+        double neededMark = calculateNeededGrade();
+        for(int i = 0; i < mSyllabus.size(); i++)
+        {
+            if(!mSyllabus.get(i).isMarked())
+            {
+                mSyllabus.get(i).setNeededGrade(neededMark);
+            }
+        }
+    }
+
     /*
     Calculate the Mark needed for every unmarked syllabus item
     based on a Targetted grade

@@ -12,13 +12,11 @@ public class SyllabusItem extends ListItem {
     private double mWeight;
     private double mGradeAchieved;
     private double mNeededGrade;
-    private boolean isMarked;
 
     public SyllabusItem(String name, double weight)
     {
         mItemName = name;
         mWeight = weight;
-        isMarked = false;
         mGradeAchieved = NOT_MARKED;
     }
 
@@ -34,14 +32,7 @@ public class SyllabusItem extends ListItem {
 
     public void setGradeAchieved(double gradeAchieved)
     {
-        if(Double.compare(NOT_MARKED, gradeAchieved) == 0)
-        {
-            isMarked = false;
-        }
-        else
-        {
-            isMarked = true;
-        }
+
         mGradeAchieved = gradeAchieved;
     }
 
@@ -76,7 +67,7 @@ public class SyllabusItem extends ListItem {
      */
     public boolean isMarked()
     {
-        return 0 != Double.compare(NOT_MARKED, mGradeAchieved) ;
+        return 0 != Double.compare(NOT_MARKED, mGradeAchieved);
     }
 
     @Override
