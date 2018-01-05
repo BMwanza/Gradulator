@@ -3,7 +3,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="24dp">
+                android:padding="24dp"
+    android:layout_marginBottom="2dp">
 
 
     <TextView
@@ -21,10 +22,12 @@
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@id/syllabus_item_title"
         tools:text="Score"
-        android:digits="0123456789"
+        android:digits="0123456789."
         android:inputType="numberDecimal"
         android:layout_marginTop="0dp"
-        android:imeOptions="actionDone"/>
+        android:imeOptions="actionDone"
+        android:maxLength="5"/>
+
 
     <TextView
         android:id="@+id/syllabus_item_score_state"

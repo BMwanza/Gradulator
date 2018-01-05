@@ -40,9 +40,10 @@
             android:textSize="7pt"
             android:layout_below="@id/target_grade_id"
             android:layout_alignLeft="@id/target_grade_id"
-            android:digits="0123456789"
+            android:digits="0123456789."
             android:inputType="numberDecimal"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:maxLength="4"/>
 
         <TextView
             android:id="@+id/current_grade_score"

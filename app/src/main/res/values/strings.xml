@@ -7,5 +7,6 @@
 
     <string name="needed_grade">Grade Needed</string>
     <string name="achieved_grade">Grade Achieved</string>
+    <string name="percent_symbol">%</string>
 
 </resources>
