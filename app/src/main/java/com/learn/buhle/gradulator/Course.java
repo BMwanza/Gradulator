@@ -13,6 +13,7 @@ public class Course extends ListItem {
     private double mTargetGrade;
     private double mTotalWeight;
     private double mRemainingMarks;
+    private double mNeededGrade;
     private ArrayList<SyllabusItem> mSyllabus;
 
     public Course(String name)
@@ -21,7 +22,9 @@ public class Course extends ListItem {
 //        mTargetGrade = targetGrade;
         mSyllabus = new ArrayList<SyllabusItem>();
         mCurrGrade = 0;
-
+//        mSyllabus.add(new SyllabusItem("Final Exam", 50));
+//        mSyllabus.add(new SyllabusItem("Assignments", 28));
+//        mSyllabus.add(new SyllabusItem("Midterm", 22));
         for(int i = 0; i < 20; i++)
         {
             mSyllabus.add(new SyllabusItem("Item #" + i, 5));
@@ -51,6 +54,8 @@ public class Course extends ListItem {
                 mSyllabus.get(i).setNeededGrade(neededMark);
             }
         }
+
+        mCurrGrade = calculateCurrMark()/getGradedMarks() ;
     }
 
     /*
@@ -138,6 +143,21 @@ public class Course extends ListItem {
         }
 
         return remainingMarks;
+    }
+
+    private double getGradedMarks()
+    {
+        double gradedMarks = 0;
+
+        for(int i = 0; i < mSyllabus.size(); i++)
+        {
+            if(mSyllabus.get(i).isMarked())
+            {
+                gradedMarks += mSyllabus.get(i).getWeight();
+            }
+        }
+
+        return gradedMarks;
     }
 
     public String getCourseName()

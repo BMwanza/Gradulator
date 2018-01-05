@@ -53,6 +53,8 @@ public class CourseInfoFragment extends Fragment {
         mEditTargetView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+
                 if(i == EditorInfo.IME_ACTION_DONE)
                 {
                     if(!textView.getText().toString().matches("")) {
@@ -79,6 +81,8 @@ public class CourseInfoFragment extends Fragment {
 
                 return true;
             }
+
+
         });
 
         updateInterface(0);
@@ -95,7 +99,6 @@ public class CourseInfoFragment extends Fragment {
 
     private void updateInterface(int position)
     {
-        mCourse.updateMarks();
 
         if (mSyllabusItemAdapter == null)
         {
@@ -148,12 +151,12 @@ public class CourseInfoFragment extends Fragment {
          */
             if(!mSyllabusItem.isMarked())
             {
-                mSyllabusItemScore.setHint(Double.toString(item.getNeededGrade() * 100.0) + "%");
+                mSyllabusItemScore.setHint(String.format("%.1f", item.getNeededGrade() * 100) + "%");
                 mScoreState.setText(R.string.needed_grade);
             }
             else
             {
-                mSyllabusItemScore.setText(Double.toString(item.getGradeAchieved()) + "%");
+                mSyllabusItemScore.setText(String.format("%.1f", item.getGradeAchieved()) + "%");
                 mScoreState.setText(R.string.achieved_grade);
             }
 
@@ -169,6 +172,8 @@ public class CourseInfoFragment extends Fragment {
                     mSyllabusItemScore.setText(textView.getText().toString());
                     mSyllabusItem.setGradeAchieved(Double.parseDouble(textView.getText().toString()));
                     mScoreState.setText(R.string.achieved_grade);
+                    mCourse.updateMarks();
+//                    mCurrentGradeScore.setText(String.format("%.1f", mCourse.getCurrGrade() * 100) + "%");
 
                 }
                 else
@@ -214,7 +219,7 @@ public class CourseInfoFragment extends Fragment {
         @Override
         public void onClick(View view)
         {
-            mSyllabusItemScore.getText().clear();
+            mSyllabusItemScore.setText("");
         }
     }
 
@@ -265,8 +270,9 @@ public class CourseInfoFragment extends Fragment {
         /*
         Will bind the view holder to a piece of data in some position in our adapter list
          */
-        public void onBindViewHolder(SyllabusItemHolder holder, int position) {
-
+        public void onBindViewHolder(SyllabusItemHolder holder, int position)
+        {
+            holder.setIsRecyclable(false);
             SyllabusItem item = mSyllabusItems.get(position);
             holder.bindToData(item);
 
