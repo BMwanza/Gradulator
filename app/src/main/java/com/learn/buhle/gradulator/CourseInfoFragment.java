@@ -67,7 +67,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
 
         if(i == EditorInfo.IME_ACTION_DONE)
         {
-
+            mEditTargetView.clearFocus();
             if(!textView.getText().toString().matches("")) {
 
                 validString = validateString(textView.getText().toString());
