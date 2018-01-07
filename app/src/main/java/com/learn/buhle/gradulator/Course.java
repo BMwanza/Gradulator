@@ -1,6 +1,7 @@
 package com.learn.buhle.gradulator;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by BMwanza on 1/2/2018.
@@ -8,27 +9,35 @@ import java.util.ArrayList;
 
 public class Course extends ListItem {
 
+    private UUID mCourseID;
     private String mCourseName;
     private double mCurrGrade;
     private double mTargetGrade;
     private double mTotalWeight;
-    private double mRemainingMarks;
-    private double mNeededGrade;
     private ArrayList<SyllabusItem> mSyllabus;
 
     public Course(String name)
     {
+        mCourseID = UUID.randomUUID();
+
         mCourseName = name;
 //        mTargetGrade = targetGrade;
         mSyllabus = new ArrayList<SyllabusItem>();
         mCurrGrade = 0;
-//        mSyllabus.add(new SyllabusItem("Final Exam", 50));
-//        mSyllabus.add(new SyllabusItem("Assignments", 28));
-//        mSyllabus.add(new SyllabusItem("Midterm", 22));
+
         for(int i = 0; i < 20; i++)
         {
             mSyllabus.add(new SyllabusItem("Item #" + i, 5));
         }
+    }
+
+    public Course(UUID courseID, String courseName, double currGrade, double targetGrade, double totalWeight, ArrayList<SyllabusItem> syllabus) {
+        mCourseID = courseID;
+        mCourseName = courseName;
+        mCurrGrade = currGrade;
+        mTargetGrade = targetGrade;
+        mTotalWeight = totalWeight;
+        mSyllabus = syllabus;
     }
 
     public boolean addSyllabusItem(SyllabusItem newItem)
@@ -135,6 +144,11 @@ public class Course extends ListItem {
 
 
     //******************* GETTERS ********************************//
+
+
+    public UUID getCourseID() {
+        return mCourseID;
+    }
 
     private double getRemainingMarks()
     {
