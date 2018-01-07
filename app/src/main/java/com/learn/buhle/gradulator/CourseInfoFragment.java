@@ -22,8 +22,16 @@ import java.util.ArrayList;
 
 public class CourseInfoFragment extends Fragment implements TextView.OnEditorActionListener, View.OnFocusChangeListener{
 
-    private Course mCourse;
+    // On Save Instance State keys if needed
+//    private static final String CURRENT_DEFAULT_VALUE = "Current Grade";
+//    private static final String TARGET_DEFAULT_VALUE = "Set Target Grade";
+//    private static final String EMPTY_STRING_VALUE = "";
 
+    private static final String COURSE_TARGET_GRADE = "target_grade";
+    private static final String COURSE_CURRENT_GRADE = "course_current_grade";
+    private static final String COURSE_SYLLABUS = "course_information";
+
+    private Course mCourse;
     private TextView mTargetGradeTextView;
     private TextView mCurrentGradeScore;
     private EditText mEditTargetView;
@@ -50,11 +58,37 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         mCurrentGradeScore = (TextView) view.findViewById(R.id.current_grade_score);
         mEditTargetView = (EditText) view.findViewById(R.id.edit_target_grade_id);
 
+
         mEditTargetView.setOnEditorActionListener(this);
         mEditTargetView.setOnFocusChangeListener(this);
 
         return view;
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState)
+//    {
+//        String currGrade, tarGrade;
+//
+//        super.onSaveInstanceState(savedInstanceState);
+//
+//        if(!mCurrentGradeScore.getText().toString().equals(CURRENT_DEFAULT_VALUE) &&
+//                !mCurrentGradeScore.getText().toString().equals(EMPTY_STRING_VALUE))
+//        {
+//            currGrade = validateString(mCurrentGradeScore.getText().toString());
+//            savedInstanceState.putDouble(COURSE_CURRENT_GRADE, Double.parseDouble(currGrade));
+//        }
+//
+//        if(!mEditTargetView.getText().toString().equals(TARGET_DEFAULT_VALUE) &&
+//                !mEditTargetView.getText().toString().equals(EMPTY_STRING_VALUE))
+//        {
+//            tarGrade = validateString(mEditTargetView.getText().toString());
+//            savedInstanceState.putDouble(COURSE_TARGET_GRADE, Double.parseDouble(tarGrade));
+//        }
+//
+//        //Save the current Grade, Target Grade, and the Arraylist of Syllabus items
+//        savedInstanceState.putSerializable(COURSE_SYLLABUS, mCourse.getSyllabus());
+//    }
 
 
     /*
@@ -82,14 +116,13 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
 
             }
 
-
-            //Close the Keyboard
-            InputMethodManager inputMethodManager =
-                    (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(
-                    getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
         }
+
+        //Close the Keyboard
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         //Updatethe interface
         updateInterface(0);
@@ -140,24 +173,18 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         String validString = "";
         boolean vStringHasDecimal = false;
 
-        if(inputString.contains("."))
+
+        for(int i = 0; i < inputString.length(); i++)
         {
-            for(int i = 0; i < inputString.length(); i++)
+            if(inputString.charAt(i) != '.' && inputString.charAt(i) != '%')
             {
-                if(inputString.charAt(i) != '.')
-                {
-                    validString += inputString.charAt(i);
-                }
-                else if(inputString.charAt(i) == '.' && !vStringHasDecimal)
-                {
-                    vStringHasDecimal = true;
-                    validString += inputString.charAt(i);
-                }
+                validString += inputString.charAt(i);
             }
-        }
-        else
-        {
-            validString = inputString;
+            else if(inputString.charAt(i) == '.' && !vStringHasDecimal)
+            {
+                vStringHasDecimal = true;
+                validString += inputString.charAt(i);
+            }
         }
 
         return validString;
@@ -237,11 +264,11 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
                 updateInterface(0);
 
 
-//            //Close the Keyboard
-//            InputMethodManager inputMethodManager =
-//                    (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            inputMethodManager.hideSoftInputFromWindow(
-//                    getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            //Close the Keyboard
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(
+                    getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
             }
 
@@ -281,9 +308,6 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
             }
 
         }
-
-
-
 
 
     }

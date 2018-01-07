@@ -99,6 +99,12 @@ public class Course extends ListItem {
 
 
     //********************* SETTERS ********************************//
+
+
+    public void setSyllabus(ArrayList<SyllabusItem> syllabus) {
+        mSyllabus = syllabus;
+    }
+
     public void setCourseName(String courseName)
     {
         mCourseName = courseName;
