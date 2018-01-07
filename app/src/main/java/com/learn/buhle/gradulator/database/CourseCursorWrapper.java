@@ -27,7 +27,7 @@ public class CourseCursorWrapper extends CursorWrapper {
      * Extract a course from a entry in the Database total
      * @return The course extracted from the data
      */
-    public Course ExtractCurseData()
+    public Course extractCourseData()
     {
 
         UUID courseID;
