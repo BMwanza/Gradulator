@@ -1,10 +1,15 @@
 package com.learn.buhle.gradulator;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,8 +22,28 @@ import java.util.ArrayList;
 
 public class CourseListFragment extends Fragment
 {
+    private static final int NEW_CRIME_REQUEST_CODE = 0;
+    private static final String COURSE_TITLE_RESULT = "course title";
+
     private RecyclerView mRecyclerView;
     private CourseAdapter mCourseAdapter;
+
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updateInterface(0);
+    }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup containter, Bundle savedInstanceState)
@@ -34,11 +59,31 @@ public class CourseListFragment extends Fragment
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.course_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        CourseManager manager = CourseManager.getInstance(getActivity());
+        if(item.getItemId() == R.id.menu_item_add_course)
+        {
+            Intent intent = new Intent(getActivity(), NewCourseActivity.class);
+            startActivityForResult(intent, NEW_CRIME_REQUEST_CODE);
+
+        }
+
+
+        return true;
+    }
+
     public void updateInterface(int position)
     {
-        ArrayList<Course> courses = new ArrayList<Course>();
-        courses.add(new Course("COMP 2160"));
-        courses.add(new Course("COMP 2140"));
+        ArrayList<Course> courses = CourseManager.getInstance(getActivity()).getAllCourses();
 
         if(mCourseAdapter == null)
         {
@@ -47,7 +92,23 @@ public class CourseListFragment extends Fragment
         }
         else
         {
+            mCourseAdapter.setCourses(courses);
             mCourseAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        String courseTitle;
+        if(requestCode == NEW_CRIME_REQUEST_CODE)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                courseTitle = data.getStringExtra(COURSE_TITLE_RESULT);
+                CourseManager.getInstance(getActivity()).addCourse(new Course(courseTitle));
+                updateInterface(0);
+            }
         }
     }
 
@@ -105,6 +166,10 @@ public class CourseListFragment extends Fragment
         @Override
         public int getItemCount() {
             return mCourses.size();
+        }
+
+        public void setCourses(ArrayList<Course> courses) {
+            mCourses = courses;
         }
     }
 

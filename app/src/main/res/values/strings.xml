@@ -9,4 +9,12 @@
     <string name="achieved_grade">Grade Achieved</string>
     <string name="percent_symbol">%</string>
 
+    <string name="add_course">Add Course</string>
+    <string name="course_title">Course Title</string>
+    <string name="course_name_hint">Enter Course Name</string>
+
+    <string name="create_course">Create Course</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_course_name_prompt">Please Enter Course Title</string>
+
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_title"
+        style="?android:listSeparatorTextViewStyle"/>
+
+    <EditText
+        android:id="@+id/new_course_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/course_name_hint"
+        android:layout_marginTop="8dp"
+        android:imeOptions="actionDone"
+        android:maxLength="12"
+        android:inputType="text"/>
+
+    <Button
+        android:id="@+id/create_course_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/create_course"/>
+
+    <Button
+        android:id="@+id/cancel_course_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/cancel"/>
+
+</LinearLayout>
