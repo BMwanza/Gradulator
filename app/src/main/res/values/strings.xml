@@ -17,4 +17,7 @@
     <string name="cancel">Cancel</string>
     <string name="enter_course_name_prompt">Please Enter Course Title</string>
 
+    <string name="syllabus_item_name">Syllabus Item Name</string>
+    <string name="syllabus_item_weight">Weight Towards Final Grade</string>
+
 </resources>

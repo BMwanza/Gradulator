@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by BMwanza on 1/2/2018.
@@ -27,11 +28,15 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
 //    private static final String TARGET_DEFAULT_VALUE = "Set Target Grade";
 //    private static final String EMPTY_STRING_VALUE = "";
 
+
+    private static final String COURSE_ID_ARG = "courseID";
     private static final String COURSE_TARGET_GRADE = "target_grade";
     private static final String COURSE_CURRENT_GRADE = "course_current_grade";
     private static final String COURSE_SYLLABUS = "course_information";
 
     private Course mCourse;
+
+    private TextView mCourseTitleView;
     private TextView mTargetGradeTextView;
     private TextView mCurrentGradeScore;
     private EditText mEditTargetView;
@@ -40,6 +45,13 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     private SyllabusItemAdapter mSyllabusItemAdapter;
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        UUID courseID = (UUID) getArguments().getSerializable(COURSE_ID_ARG);
+        mCourse = CourseManager.getInstance(getActivity()).getCourse(courseID);
+    }
 
     /*
     The onCreate View simply inflates the course Fragment layout and links up our Recycler View
@@ -48,16 +60,18 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
 
-        mCourse = new Course("COMP 2160");
         View view = inflater.inflate(R.layout.course_fragment, container, false);
+
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.syllabus_item_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        mCourseTitleView = (TextView) view.findViewById(R.id.course_title_header);
         mTargetGradeTextView = (TextView) view.findViewById(R.id.target_grade_id);
         mCurrentGradeScore = (TextView) view.findViewById(R.id.current_grade_score);
         mEditTargetView = (EditText) view.findViewById(R.id.edit_target_grade_id);
 
+        mCourseTitleView.setText(mCourse.getCourseName());
 
         mEditTargetView.setOnEditorActionListener(this);
         mEditTargetView.setOnFocusChangeListener(this);
@@ -65,30 +79,30 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         return view;
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState)
-//    {
-//        String currGrade, tarGrade;
-//
-//        super.onSaveInstanceState(savedInstanceState);
-//
-//        if(!mCurrentGradeScore.getText().toString().equals(CURRENT_DEFAULT_VALUE) &&
-//                !mCurrentGradeScore.getText().toString().equals(EMPTY_STRING_VALUE))
-//        {
-//            currGrade = validateString(mCurrentGradeScore.getText().toString());
-//            savedInstanceState.putDouble(COURSE_CURRENT_GRADE, Double.parseDouble(currGrade));
-//        }
-//
-//        if(!mEditTargetView.getText().toString().equals(TARGET_DEFAULT_VALUE) &&
-//                !mEditTargetView.getText().toString().equals(EMPTY_STRING_VALUE))
-//        {
-//            tarGrade = validateString(mEditTargetView.getText().toString());
-//            savedInstanceState.putDouble(COURSE_TARGET_GRADE, Double.parseDouble(tarGrade));
-//        }
-//
-//        //Save the current Grade, Target Grade, and the Arraylist of Syllabus items
-//        savedInstanceState.putSerializable(COURSE_SYLLABUS, mCourse.getSyllabus());
-//    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        updateInterface(0);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        CourseManager.getInstance(getActivity()).updateCourse(mCourse);
+    }
+
+    public static CourseInfoFragment newInstance(UUID courseID)
+    {
+        Bundle args = new Bundle();
+        args.putSerializable(COURSE_ID_ARG, courseID);
+        CourseInfoFragment fragment = new CourseInfoFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
 
 
     /*
@@ -139,12 +153,6 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         }
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        updateInterface(0);
-    }
 
     private void updateInterface(int position)
     {

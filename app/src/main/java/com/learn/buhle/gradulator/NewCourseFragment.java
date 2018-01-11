@@ -41,6 +41,7 @@ public class NewCourseFragment extends Fragment
         mCreateCourseButton = (Button) view.findViewById(R.id.create_course_button);
         mCancelCourseButton = (Button) view.findViewById(R.id.cancel_course_button);
 
+
         if(savedInstanceState != null)
         {
             mCourseNameEdit.setText(savedInstanceState.getString(COURSE_TITLE));
@@ -68,6 +69,7 @@ public class NewCourseFragment extends Fragment
                 }
                 else
                 {
+                    mCourseTitle = mCourseNameEdit.getText().toString();
                     Intent intent = new Intent();
                     intent.putExtra(COURSE_TITLE_RESULT, mCourseTitle);
                     getActivity().setResult(Activity.RESULT_OK, intent);

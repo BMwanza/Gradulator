@@ -115,7 +115,7 @@ public class CourseListFragment extends Fragment
 
     //******************************** PRIVATE ViewHolder CLASS***************************************//
     /***************************************************************************************************/
-    private class CourseHolder extends RecyclerView.ViewHolder
+    private class CourseHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         private Course mCourse;
         private TextView mCourseTitle;
@@ -125,16 +125,27 @@ public class CourseListFragment extends Fragment
         {
             super(itemView);
 
+            itemView.setOnClickListener(this);
             mCourseTitle = (TextView) itemView.findViewById(R.id.course_title);
             mCourseScore = (TextView) itemView.findViewById(R.id.course_grade_score);
         }
 
         public void bindToCourseData(Course course)
         {
+            mCourse = course;
             mCourseTitle.setText(course.getCourseName());
             mCourseScore.setText(Double.toString(course.getCurrGrade()));
         }
+
+        @Override
+        public void onClick(View view)
+        {
+            Intent intent= CourseInformationActivity.newIntent(getActivity(), mCourse.getCourseID());
+            startActivity(intent);
+        }
     }
+
+
 
     private class CourseAdapter extends RecyclerView.Adapter<CourseHolder>
     {

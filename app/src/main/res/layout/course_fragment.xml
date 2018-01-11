@@ -4,6 +4,17 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/course_title"
+        style="?android:listSeparatorTextViewStyle"/>
+
+    <TextView
+        android:id="@+id/course_title_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
 
     <RelativeLayout
         android:id="@+id/target_versus_grade"
