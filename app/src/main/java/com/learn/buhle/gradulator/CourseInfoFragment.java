@@ -1,12 +1,17 @@
 package com.learn.buhle.gradulator;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -23,10 +28,12 @@ import java.util.UUID;
 
 public class CourseInfoFragment extends Fragment implements TextView.OnEditorActionListener, View.OnFocusChangeListener{
 
-    // On Save Instance State keys if needed
-//    private static final String CURRENT_DEFAULT_VALUE = "Current Grade";
-//    private static final String TARGET_DEFAULT_VALUE = "Set Target Grade";
-//    private static final String EMPTY_STRING_VALUE = "";
+
+    // For the Dialog
+    private static final String ARG_NEW_ITEM_DIALOG = "syllabus_item_dialog";
+    private static final int SYLLABUS_ITEM_REQUEST_CODE = 0;
+    private static final String SYLLABUS_ITEM_NAME = "syllabus_item_weight";
+    private static final String SYLLABUS_ITEM_WEIGHT = "syllabus_item_weight";
 
 
     private static final String COURSE_ID_ARG = "courseID";
@@ -91,6 +98,45 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     {
         super.onPause();
         CourseManager.getInstance(getActivity()).updateCourse(mCourse);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.course_info_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == R.id.menu_item_add_syllabus_item)
+        {
+            NewSyllabusItemFragment dialog = NewSyllabusItemFragment.newInstance(mCourse.getTotalWeight());
+            dialog.setTargetFragment(CourseInfoFragment.this, SYLLABUS_ITEM_REQUEST_CODE);
+            dialog.show(getFragmentManager(), ARG_NEW_ITEM_DIALOG);
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+
+        if(requestCode == SYLLABUS_ITEM_REQUEST_CODE)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                SyllabusItem newItem = new SyllabusItem(data.getStringExtra(SYLLABUS_ITEM_NAME),
+                        data.getDoubleExtra(SYLLABUS_ITEM_WEIGHT, 0));
+
+                mCourse.addSyllabusItem(newItem);
+                updateInterface(0);
+            }
+        }
+
     }
 
     public static CourseInfoFragment newInstance(UUID courseID)

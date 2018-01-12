@@ -29,4 +29,21 @@
         android:inputType="numberDecimal"
         android:digits="0123456789."/>
 
+    <TextView
+        android:id="@+id/course_total_weight_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="@string/course_total_weight" />
+
+    <TextView
+        android:id="@+id/course_total_weight_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textSize="14pt"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="@string/course_total_weight_value"/>
+
 </LinearLayout>
