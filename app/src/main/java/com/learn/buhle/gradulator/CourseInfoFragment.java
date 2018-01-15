@@ -56,6 +56,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID courseID = (UUID) getArguments().getSerializable(COURSE_ID_ARG);
         mCourse = CourseManager.getInstance(getActivity()).getCourse(courseID);
     }
@@ -124,15 +125,20 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        String itemName;
+        double itemWeight;
 
         if(requestCode == SYLLABUS_ITEM_REQUEST_CODE)
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                SyllabusItem newItem = new SyllabusItem(data.getStringExtra(SYLLABUS_ITEM_NAME),
-                        data.getDoubleExtra(SYLLABUS_ITEM_WEIGHT, 0));
+                itemName = data.getStringExtra(NewSyllabusItemFragment.SYLLABUS_ITEM_NAME);
+                itemWeight =  data.getDoubleExtra(NewSyllabusItemFragment.SYLLABUS_ITEM_WEIGHT, 0);
+                SyllabusItem newItem = new SyllabusItem(itemName, itemWeight);
+
 
                 mCourse.addSyllabusItem(newItem);
+                CourseManager.getInstance(getActivity()).updateCourse(mCourse);
                 updateInterface(0);
             }
         }

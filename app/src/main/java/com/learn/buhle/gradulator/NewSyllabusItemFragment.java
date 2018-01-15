@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by bmwanza on 11/01/18.
@@ -20,11 +22,14 @@ import android.widget.EditText;
 public class NewSyllabusItemFragment extends DialogFragment
 {
     private static final String TOTAL_COURSE_WEIGHT = "course_total_weight";
-    private static final String SYLLABUS_ITEM_NAME = "syllabus_item_weight";
-    private static final String SYLLABUS_ITEM_WEIGHT = "syllabus_item_weight";
+    public static final String SYLLABUS_ITEM_NAME = "syllabus_item_name";
+    public static final String SYLLABUS_ITEM_WEIGHT = "syllabus_item_weight";
 
     private EditText mSyllabusItemName;
     private EditText mSyllabusItemWeight;
+    private TextView mCourseTotalWeight;
+    private double mWeight;
+
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -34,8 +39,10 @@ public class NewSyllabusItemFragment extends DialogFragment
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.syllabus_item_dialog, null);
         mSyllabusItemName = view.findViewById(R.id.syllabus_item_name);
         mSyllabusItemWeight = view.findViewById(R.id.syllabus_item_weight);
-        mSyllabusItemWeight.setText(Double.toString(getArguments().getDouble(TOTAL_COURSE_WEIGHT)));
+        mCourseTotalWeight = view.findViewById(R.id.course_total_weight_value);
+        mWeight = getArguments().getDouble(TOTAL_COURSE_WEIGHT);
 
+        mCourseTotalWeight.setText(Double.toString(mWeight));
         builder.setView(view);
         builder.setTitle(R.string.new_syllabus_item);
 
@@ -49,7 +56,18 @@ public class NewSyllabusItemFragment extends DialogFragment
                 //Use validate String
                 itemName = mSyllabusItemName.getText().toString();
                 itemWeight = Double.parseDouble(mSyllabusItemWeight.getText().toString());
-                sendResult(Activity.RESULT_OK, itemName, itemWeight);
+
+                if(mWeight + itemWeight > 100)
+                {
+                    double remaining = Math.max(mWeight, 100.0) - Math.min(mWeight, 100.0);
+                    Toast.makeText(getActivity(), "Entered weight exceeds 100, please enter a value " +
+                            "less than or equal to " + remaining + ".", Toast.LENGTH_LONG).show();
+                    dismiss();
+                }
+                else
+                {
+                    sendResult(Activity.RESULT_OK, itemName, itemWeight);
+                }
             }
         });
 
@@ -80,13 +98,11 @@ public class NewSyllabusItemFragment extends DialogFragment
         if(getTargetFragment() != null)
         {
             Intent intent = new Intent();
-            intent.putExtra(SYLLABUS_ITEM_NAME, itemName);
+            intent.putExtra(SYLLABUS_ITEM_NAME, itemName.toString());
             intent.putExtra(SYLLABUS_ITEM_WEIGHT, itemWeight);
 
             getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
         }
     }
-
-
 
 }

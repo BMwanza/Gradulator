@@ -25,10 +25,6 @@ public class Course extends ListItem {
         mSyllabus = new ArrayList<SyllabusItem>();
         mCurrGrade = 0;
 
-        for(int i = 0; i < 20; i++)
-        {
-            mSyllabus.add(new SyllabusItem("Item #" + i, 5));
-        }
     }
 
     public Course(UUID courseID, String courseName, double currGrade, double targetGrade, double totalWeight, ArrayList<SyllabusItem> syllabus) {
@@ -47,6 +43,7 @@ public class Course extends ListItem {
         {
             added = true;
             mSyllabus.add(newItem);
+            mTotalWeight += newItem.getWeight();
         }
 
         return added;
@@ -197,13 +194,6 @@ public class Course extends ListItem {
 
     public double getTotalWeight()
     {
-        mTotalWeight = 0;
-
-        for(int i = 0; i < mSyllabus.size(); i++)
-        {
-            mTotalWeight += mSyllabus.get(i).getWeight();
-        }
-
         return mTotalWeight;
     }
 
