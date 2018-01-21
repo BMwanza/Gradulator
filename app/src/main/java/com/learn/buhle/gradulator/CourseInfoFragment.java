@@ -80,6 +80,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         mEditTargetView = (EditText) view.findViewById(R.id.edit_target_grade_id);
 
         mCourseTitleView.setText(mCourse.getCourseName());
+        mEditTargetView.setText(Double.toString(mCourse.getTargetGrade()) + "%");
 
         mEditTargetView.setOnEditorActionListener(this);
         mEditTargetView.setOnFocusChangeListener(this);

@@ -16,6 +16,8 @@
     <string name="create_course">Create Course</string>
     <string name="cancel">Cancel</string>
     <string name="enter_course_name_prompt">Please Enter Course Title</string>
+    <string name="set_target_grade">Please Your Target Grade for the Course</string>
+
     <string name="grades_recieved">No Grades Recieved</string>
 
     <string name="new_syllabus_item">New Syllabus Item</string>

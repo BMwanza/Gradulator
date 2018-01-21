@@ -24,6 +24,8 @@ public class CourseListFragment extends Fragment
 {
     private static final int NEW_CRIME_REQUEST_CODE = 0;
     private static final String COURSE_TITLE_RESULT = "course title";
+    private static final String COURSE_TARGET_RESULT = "target grade";
+
 
     private RecyclerView mRecyclerView;
     private CourseAdapter mCourseAdapter;
@@ -101,12 +103,15 @@ public class CourseListFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         String courseTitle;
+        double courseTarget;
+
         if(requestCode == NEW_CRIME_REQUEST_CODE)
         {
             if(resultCode == Activity.RESULT_OK)
             {
                 courseTitle = data.getStringExtra(COURSE_TITLE_RESULT);
-                CourseManager.getInstance(getActivity()).addCourse(new Course(courseTitle));
+                courseTarget = data.getDoubleExtra(COURSE_TARGET_RESULT, 0);
+                CourseManager.getInstance(getActivity()).addCourse(new Course(courseTitle, courseTarget));
                 updateInterface(0);
             }
         }

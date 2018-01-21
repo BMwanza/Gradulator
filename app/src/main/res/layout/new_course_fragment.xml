@@ -20,6 +20,17 @@
         android:maxLength="12"
         android:inputType="text"/>
 
+    <EditText
+        android:id="@+id/new_course_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="@string/set_target_grade"
+        android:imeOptions="actionDone"
+        android:maxLength="4"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."/>
+
     <Button
         android:id="@+id/create_course_button"
         android:layout_width="match_parent"

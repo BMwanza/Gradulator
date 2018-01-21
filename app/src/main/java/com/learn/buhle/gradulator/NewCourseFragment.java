@@ -21,13 +21,19 @@ import android.widget.Toast;
 public class NewCourseFragment extends Fragment
 {
     private static final String COURSE_TITLE_RESULT = "course title";
+    private static final String COURSE_TARGET_RESULT = "target grade";
+
+
     private static final String COURSE_TITLE = "course name";
+    private static final String COURSE_TARGET_GRADE = "course target";
 
     private EditText mCourseNameEdit;
+    private EditText mCourseTargetEdit;
     private Button mCreateCourseButton;
     private Button mCancelCourseButton;
 
     private String mCourseTitle;
+    private double mCourseTarget;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -38,6 +44,7 @@ public class NewCourseFragment extends Fragment
 
 
         mCourseNameEdit = (EditText) view.findViewById(R.id.new_course_title);
+        mCourseTargetEdit = (EditText) view.findViewById(R.id.new_course_target);
         mCreateCourseButton = (Button) view.findViewById(R.id.create_course_button);
         mCancelCourseButton = (Button) view.findViewById(R.id.cancel_course_button);
 
@@ -45,6 +52,7 @@ public class NewCourseFragment extends Fragment
         if(savedInstanceState != null)
         {
             mCourseNameEdit.setText(savedInstanceState.getString(COURSE_TITLE));
+            mCourseTargetEdit.setText(savedInstanceState.getString(COURSE_TARGET_GRADE));
         }
 
         mCourseNameEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -60,6 +68,19 @@ public class NewCourseFragment extends Fragment
             }
         });
 
+        mCourseTargetEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if(i == EditorInfo.IME_ACTION_DONE)
+                {
+                    mCourseTarget = Double.parseDouble(ErrorManager.validateString(textView.getText().toString()));
+                }
+
+                return false;
+            }
+        });
+
         mCreateCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,11 +88,18 @@ public class NewCourseFragment extends Fragment
                 {
                     Toast.makeText(getActivity(), R.string.enter_course_name_prompt, Toast.LENGTH_SHORT).show();
                 }
+                if(mCourseTargetEdit.getText().toString().matches(""))
+                {
+                    Toast.makeText(getActivity(), R.string.set_target_grade, Toast.LENGTH_LONG).show();
+                }
                 else
                 {
                     mCourseTitle = mCourseNameEdit.getText().toString();
+                    mCourseTarget = Double.parseDouble(ErrorManager.validateString(mCourseTargetEdit.getText().toString()));
+
                     Intent intent = new Intent();
                     intent.putExtra(COURSE_TITLE_RESULT, mCourseTitle);
+                    intent.putExtra(COURSE_TARGET_RESULT, mCourseTarget);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().finish();
                 }
@@ -99,6 +127,7 @@ public class NewCourseFragment extends Fragment
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putString(COURSE_TITLE, mCourseNameEdit.getText().toString());
+        savedInstanceState.putString(COURSE_TARGET_GRADE, mCourseTargetEdit.getText().toString());
     }
 
 }

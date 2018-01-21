@@ -19,10 +19,11 @@ public class Course extends ListItem {
     private boolean mgradesRecieved;
     private ArrayList<SyllabusItem> mSyllabus;
 
-    public Course(String name)
+    public Course(String name, double target)
     {
         mCourseID = UUID.randomUUID();
         mCourseName = name;
+        mTargetGrade = target;
         mgradesRecieved = false;
         mCurrGrade = STARTING_GRADE;
         mSyllabus = new ArrayList<SyllabusItem>();
