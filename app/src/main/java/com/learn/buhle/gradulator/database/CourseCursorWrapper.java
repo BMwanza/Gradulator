@@ -35,6 +35,7 @@ public class CourseCursorWrapper extends CursorWrapper {
         double currGrade;
         double targetGrade;
         double totalWeight;
+        boolean gradesRecived;
         String jSonSyllabus;
 
         courseID = UUID.fromString(getString(getColumnIndex(CourseTable.Columns.CID)));
@@ -42,10 +43,11 @@ public class CourseCursorWrapper extends CursorWrapper {
         currGrade = getDouble(getColumnIndex(CourseTable.Columns.CURRENT_GRADE));
         targetGrade = getDouble(getColumnIndex(CourseTable.Columns.TARGET_GRADE));
         totalWeight = getDouble(getColumnIndex(CourseTable.Columns.TOTAL_WEIGHT));
+        gradesRecived = getInt(getColumnIndex(CourseTable.Columns.GRADEDSTATE)) > 0;
         jSonSyllabus = getString(getColumnIndex(CourseTable.Columns.SYLLABUS));
 
-        return new Course(courseID, courseName, currGrade, targetGrade, totalWeight, deserializeSyllabus(jSonSyllabus));
-
+        return new Course(courseID, courseName, currGrade, targetGrade, totalWeight, gradesRecived,
+                deserializeSyllabus(jSonSyllabus));
     }
 
     /**

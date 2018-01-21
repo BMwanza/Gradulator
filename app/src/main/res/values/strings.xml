@@ -16,11 +16,12 @@
     <string name="create_course">Create Course</string>
     <string name="cancel">Cancel</string>
     <string name="enter_course_name_prompt">Please Enter Course Title</string>
+    <string name="grades_recieved">No Grades Recieved</string>
 
     <string name="new_syllabus_item">New Syllabus Item</string>
     <string name="syllabus_item_name">Syllabus Item Name</string>
     <string name="syllabus_item_weight">Weight Towards Final Grade</string>
-    <string name="course_total_weight">Total Weight</string>
+    <string name="course_total_weight">Total Accumalted Course Weight</string>
     <string name="course_total_weight_value">0%</string>
 
     <string name="add_syllabus_item">Add Syllabus Item</string>

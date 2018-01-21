@@ -31,6 +31,7 @@ public class CourseBaseHelper extends SQLiteOpenHelper {
                 CourseTable.Columns.CURRENT_GRADE + ", " +
                 CourseTable.Columns.TARGET_GRADE + ", " +
                 CourseTable.Columns.TOTAL_WEIGHT + ", " +
+                CourseTable.Columns.GRADEDSTATE + ", " +
                 CourseTable.Columns.SYLLABUS + ")");
     }
 

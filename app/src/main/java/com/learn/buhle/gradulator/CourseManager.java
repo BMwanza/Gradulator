@@ -61,6 +61,15 @@ public class CourseManager {
         }
     }
 
+    public void removeCourse(Course course)
+    {
+        if(course != null)
+        {
+            String uuid = course.getCourseID().toString();
+            mDatabase.delete(CourseTable.TABLE_NAME, CourseTable.Columns.CID + " = ?", new String[] {uuid});
+        }
+    }
+
     /**
      * Updates an existing Course in our database with new data
      * @param course
@@ -89,6 +98,7 @@ public class CourseManager {
         values.put(CourseTable.Columns.CURRENT_GRADE, course.getCurrGrade());
         values.put(CourseTable.Columns.TARGET_GRADE, course.getTargetGrade());
         values.put(CourseTable.Columns.TOTAL_WEIGHT, course.getTotalWeight());
+        values.put(CourseTable.Columns.GRADEDSTATE, course.hasGradesRecieved() ? 1:0);
         values.put(CourseTable.Columns.SYLLABUS, seriliazeSyllabus(course.getSyllabus()));
 
         return values;
@@ -114,6 +124,7 @@ public class CourseManager {
      */
     public ArrayList<Course> getAllCourses()
     {
+        Course course;
         ArrayList<Course> courses = new ArrayList<Course>();
         CourseCursorWrapper cursorWrapper = queryCourse(null, null); //Find all the courses
 
@@ -122,7 +133,9 @@ public class CourseManager {
             cursorWrapper.moveToFirst();
             while(!cursorWrapper.isAfterLast())
             {
-                courses.add(cursorWrapper.extractCourseData());
+                course = cursorWrapper.extractCourseData();
+                course.assertCourse();
+                courses.add(course);
                 cursorWrapper.moveToNext();
             }
         }

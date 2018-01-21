@@ -54,7 +54,7 @@ public class NewSyllabusItemFragment extends DialogFragment
                 double itemWeight;
 
                 //Use validate String
-                itemName = mSyllabusItemName.getText().toString();
+                itemName = ErrorManager.validateString(mSyllabusItemName.getText().toString());
                 itemWeight = Double.parseDouble(mSyllabusItemWeight.getText().toString());
 
                 if(mWeight + itemWeight > 100)

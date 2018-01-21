@@ -134,7 +134,7 @@ public class CourseListFragment extends Fragment
         {
             mCourse = course;
             mCourseTitle.setText(course.getCourseName());
-            mCourseScore.setText(Double.toString(course.getCurrGrade()));
+            displayCourseGrade();
         }
 
         @Override
@@ -142,6 +142,18 @@ public class CourseListFragment extends Fragment
         {
             Intent intent= CourseInformationActivity.newIntent(getActivity(), mCourse.getCourseID());
             startActivity(intent);
+        }
+
+        private void displayCourseGrade()
+        {
+            if(!mCourse.hasGradesRecieved())
+            {
+                mCourseScore.setText(R.string.grades_recieved);
+            }
+            else
+            {
+                mCourseScore.setText("Cuurent Grade: " + ErrorManager.formatValues(mCourse.getCurrGrade()));
+            }
         }
     }
 

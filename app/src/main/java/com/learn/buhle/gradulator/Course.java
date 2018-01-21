@@ -9,31 +9,36 @@ import java.util.UUID;
 
 public class Course extends ListItem {
 
+    private static final double STARTING_GRADE = 0.0;
+
     private UUID mCourseID;
     private String mCourseName;
     private double mCurrGrade;
     private double mTargetGrade;
     private double mTotalWeight;
+    private boolean mgradesRecieved;
     private ArrayList<SyllabusItem> mSyllabus;
 
     public Course(String name)
     {
         mCourseID = UUID.randomUUID();
-
         mCourseName = name;
-//        mTargetGrade = targetGrade;
+        mgradesRecieved = false;
+        mCurrGrade = STARTING_GRADE;
         mSyllabus = new ArrayList<SyllabusItem>();
-        mCurrGrade = 0;
-
+        assertCourse();
     }
 
-    public Course(UUID courseID, String courseName, double currGrade, double targetGrade, double totalWeight, ArrayList<SyllabusItem> syllabus) {
+    public Course(UUID courseID, String courseName, double currGrade, double targetGrade, double totalWeight,
+                  boolean recieved, ArrayList<SyllabusItem> syllabus) {
         mCourseID = courseID;
         mCourseName = courseName;
         mCurrGrade = currGrade;
         mTargetGrade = targetGrade;
         mTotalWeight = totalWeight;
+        mgradesRecieved = recieved;
         mSyllabus = syllabus;
+        assertCourse();
     }
 
     public boolean addSyllabusItem(SyllabusItem newItem)
@@ -192,9 +197,10 @@ public class Course extends ListItem {
         return mTargetGrade;
     }
 
-    public double getTotalWeight()
-    {
-        return mTotalWeight;
+    public double getTotalWeight() { return mTotalWeight; }
+
+    public boolean hasGradesRecieved() {
+        return mgradesRecieved;
     }
 
     public ArrayList<SyllabusItem> getSyllabus()
@@ -208,4 +214,49 @@ public class Course extends ListItem {
         return mCourseName;
     }
 
+    //********************* INVARIANT METHODS *****************************//
+
+    public void assertCourse()
+    {
+        assertName();
+        assertCurrentGrade();
+        assertTargetGrade();
+        assertTotalWeight();
+        mgradesRecieved = assertGradeReceivedState();
+    }
+
+    private boolean assertName()
+    {
+        return !mCourseName.equals("");
+    }
+
+    private boolean assertCurrentGrade()
+    {
+        return mCurrGrade >= 0 && mCurrGrade <= 100;
+    }
+
+    private boolean assertTargetGrade()
+    {
+        return mTargetGrade >= 0 && mTargetGrade <= 100;
+    }
+
+    private boolean assertTotalWeight()
+    {
+        return mTotalWeight >= 0 && mTotalWeight <= 100;
+    }
+
+    private boolean assertGradeReceivedState()
+    {
+        boolean hasGrades = false;
+
+        for(int i = 0; i < mSyllabus.size() && !hasGrades; i++)
+        {
+            if(mSyllabus.get(i).isMarked())
+            {
+                hasGrades = true;
+            }
+        }
+
+        return hasGrades;
+    }
 }

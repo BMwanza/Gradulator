@@ -55,7 +55,7 @@
             android:digits="0123456789."
             android:inputType="numberDecimal"
             android:imeOptions="actionDone"
-            android:maxLength="4"/>
+            android:maxLength="5"/>
 
         <TextView
             android:id="@+id/current_grade_score"

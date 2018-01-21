@@ -170,7 +170,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
             mEditTargetView.clearFocus();
             if(!textView.getText().toString().matches("")) {
 
-                validString = validateString(textView.getText().toString());
+                validString = ErrorManager.validateString(textView.getText().toString());
                 mCourse.setTargetGrade(Double.parseDouble(validString));
                 mEditTargetView.setText(validString + "%");
             }
@@ -221,34 +221,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         }
     }
 
-    /*
-    Validates a String that was recieved from input
-    Checks for multiple decimals in the input
-    Returns a string that only considers the first occuring decimal point
-    eg:
-    8.8.34 = 8.834
-    */
-    private String validateString(String inputString)
-    {
-        String validString = "";
-        boolean vStringHasDecimal = false;
 
-
-        for(int i = 0; i < inputString.length(); i++)
-        {
-            if(inputString.charAt(i) != '.' && inputString.charAt(i) != '%')
-            {
-                validString += inputString.charAt(i);
-            }
-            else if(inputString.charAt(i) == '.' && !vStringHasDecimal)
-            {
-                vStringHasDecimal = true;
-                validString += inputString.charAt(i);
-            }
-        }
-
-        return validString;
-    }
 
 
     //******************************** PRIVATE ViewHolder CLASS***************************************//
@@ -286,13 +259,13 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
             {
                 if(!textView.getText().toString().matches(""))
                 {
-                    validString = validateString(textView.getText().toString());
+                    validString = ErrorManager.validateString(textView.getText().toString());
 
                     mSyllabusItemScore.setText(validString);
                     mSyllabusItem.setGradeAchieved(Double.parseDouble(validString));
                     mScoreState.setText(R.string.achieved_grade);
                     mCourse.updateMarks();
-                    mCurrentGradeScore.setText(String.format("%.1f", mCourse.getCurrGrade() * 100) + "%");
+                    mCurrentGradeScore.setText(ErrorManager.formatValues(mCourse.getCurrGrade()));
 
                 }
                 else
@@ -358,7 +331,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
          */
             if(!mSyllabusItem.isMarked())
             {
-                mSyllabusItemScore.setHint(String.format("%.1f", item.getNeededGrade() * 100) + "%");
+                mSyllabusItemScore.setHint(ErrorManager.formatValues(item.getGradeAchieved()));
                 mScoreState.setText(R.string.needed_grade);
             }
             else
