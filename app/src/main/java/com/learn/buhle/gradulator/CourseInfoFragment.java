@@ -139,6 +139,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
 
                 mCourse.addSyllabusItem(newItem);
                 CourseManager.getInstance(getActivity()).updateCourse(mCourse);
+                mCourse.updateMarks();
                 updateInterface(0);
             }
         }
@@ -208,6 +209,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
 
     private void updateInterface(int position)
     {
+
 
         if (mSyllabusItemAdapter == null)
         {
@@ -331,7 +333,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
          */
             if(!mSyllabusItem.isMarked())
             {
-                mSyllabusItemScore.setHint(ErrorManager.formatValues(item.getGradeAchieved()));
+                mSyllabusItemScore.setHint(ErrorManager.formatValues(item.getNeededGrade()));
                 mScoreState.setText(R.string.needed_grade);
             }
             else
