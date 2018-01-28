@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -57,6 +58,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         UUID courseID = (UUID) getArguments().getSerializable(COURSE_ID_ARG);
         mCourse = CourseManager.getInstance(getActivity()).getCourse(courseID);
     }
@@ -117,6 +119,10 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
             NewSyllabusItemFragment dialog = NewSyllabusItemFragment.newInstance(mCourse.getTotalWeight());
             dialog.setTargetFragment(CourseInfoFragment.this, SYLLABUS_ITEM_REQUEST_CODE);
             dialog.show(getFragmentManager(), ARG_NEW_ITEM_DIALOG);
+        }
+        else if(item.getItemId() == android.R.id.home)
+        {
+            NavUtils.navigateUpFromSameTask(getActivity());
         }
 
         return true;
