@@ -92,6 +92,10 @@ public class NewCourseFragment extends Fragment
                 {
                     Toast.makeText(getActivity(), R.string.set_target_grade, Toast.LENGTH_LONG).show();
                 }
+                else if(!ErrorManager.validTargetGrade(Double.parseDouble(mCourseTargetEdit.getText().toString())))
+                {
+                    Toast.makeText(getActivity(), R.string.valid_target_grade, Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
                     mCourseTitle = mCourseNameEdit.getText().toString();

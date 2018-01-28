@@ -53,20 +53,29 @@ public class NewSyllabusItemFragment extends DialogFragment
                 String itemName;
                 double itemWeight;
 
-                //Use validate String
-                itemName = ErrorManager.validateString(mSyllabusItemName.getText().toString());
-                itemWeight = Double.parseDouble(mSyllabusItemWeight.getText().toString());
-
-                if(mWeight + itemWeight > 100)
+                if(mSyllabusItemName.getText().toString().matches(""))
                 {
-                    double remaining = Math.max(mWeight, 100.0) - Math.min(mWeight, 100.0);
-                    Toast.makeText(getActivity(), "Entered weight exceeds 100, please enter a value " +
-                            "less than or equal to " + remaining + ".", Toast.LENGTH_LONG).show();
-                    dismiss();
+                    Toast.makeText(getActivity(), R.string.syllabus_item_name_toast, Toast.LENGTH_SHORT).show();
+
+                }
+                if(mSyllabusItemWeight.getText().toString().matches(""))
+                {
+                    Toast.makeText(getActivity(), R.string.syllabus_item_weight_toast, Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    sendResult(Activity.RESULT_OK, itemName, itemWeight);
+                    //Use validate String
+                    itemName = ErrorManager.validateString(mSyllabusItemName.getText().toString());
+                    itemWeight = Double.parseDouble(mSyllabusItemWeight.getText().toString());
+
+                    if (mWeight + itemWeight > 100) {
+                        double remaining = Math.max(mWeight, 100.0) - Math.min(mWeight, 100.0);
+                        Toast.makeText(getActivity(), "Entered weight exceeds 100, please enter a value " +
+                                "less than or equal to " + remaining + ".", Toast.LENGTH_LONG).show();
+                        dismiss();
+                    } else {
+                        sendResult(Activity.RESULT_OK, itemName, itemWeight);
+                    }
                 }
             }
         });

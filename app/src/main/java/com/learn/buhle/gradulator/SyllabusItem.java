@@ -41,6 +41,10 @@ public class SyllabusItem extends ListItem {
         mNeededGrade = neededGrade;
     }
 
+    public void setAsNotMarked() {
+        mGradeAchieved = NOT_MARKED;
+    }
+
 
 
     public String getItemName() {

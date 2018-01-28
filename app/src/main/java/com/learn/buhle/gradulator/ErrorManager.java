@@ -45,5 +45,10 @@ public class ErrorManager
         return String.format("%.1f", value * 100) + "%";
     }
 
+    public static boolean validTargetGrade(double target)
+    {
+        return target <= 100 && target >= 1;
+    }
+
 
 }

@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -176,18 +177,20 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         if(i == EditorInfo.IME_ACTION_DONE)
         {
             mEditTargetView.clearFocus();
-            if(!textView.getText().toString().matches("")) {
-
-                validString = ErrorManager.validateString(textView.getText().toString());
-                mCourse.setTargetGrade(Double.parseDouble(validString));
-                mEditTargetView.setText(validString + "%");
+            if(textView.getText().toString().matches(""))
+            {
+                mEditTargetView.setText(Double.toString(mCourse.getTargetGrade()) + "%");
+            }
+            else if(!ErrorManager.validTargetGrade(Double.parseDouble(textView.getText().toString())))
+            {
+                mEditTargetView.setText(Double.toString(mCourse.getTargetGrade()) + "%");
+                Toast.makeText(getActivity(), R.string.valid_target_grade, Toast.LENGTH_SHORT).show();
             }
             else
             {
-                mEditTargetView.setText("90%");
-                mCourse.setTargetGrade(90.0);
-
-
+                validString = ErrorManager.validateString(textView.getText().toString());
+                mCourse.setTargetGrade(Double.parseDouble(validString));
+                mEditTargetView.setText(validString + "%");
             }
 
         }
@@ -281,24 +284,11 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
                 {
                     //If the user does not enter any data
 
+                    mSyllabusItem.setAsNotMarked();
+                    mCourse.updateMarks();
+                    mSyllabusItemScore.setHint(Double.toString(mSyllabusItem.getNeededGrade()));
+                    mScoreState.setText(R.string.needed_grade);
 
-                    if(mSyllabusItem.isMarked())
-                    {
-                    /*
-                    If the SyllabusItem is marked simply set the text to the achieved grade
-                    */
-                        mSyllabusItemScore.setText(Double.toString(mSyllabusItem.getGradeAchieved()));
-                        mScoreState.setText(R.string.achieved_grade);
-
-                    }
-                    else
-                    {
-                    /*
-                     If the Syllabus Item is not marked set the hint for the needed grade
-                     */
-                        mSyllabusItemScore.setHint(Double.toString(mSyllabusItem.getNeededGrade()));
-                        mScoreState.setText(R.string.needed_grade);
-                    }
 
                 }
 
@@ -321,7 +311,21 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         public void onFocusChange(View view, boolean b) {
             if(b)
             {
-                mSyllabusItemScore.getText().clear();
+                if(mSyllabusItem.isMarked())
+                {
+                    //Force the keyboard to show
+                    InputMethodManager mImm = (InputMethodManager)
+                            getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mImm.showSoftInput(mSyllabusItemScore, InputMethodManager.SHOW_IMPLICIT);
+
+                    mSyllabusItemScore.setText(ErrorManager.validateString(mSyllabusItemScore.getText().toString()));
+                    mSyllabusItemScore.setSelection(mSyllabusItemScore.getText().toString().length());
+
+                }
+                else
+                {
+                    mSyllabusItemScore.getText().clear();
+                }
             }
         }
 
