@@ -31,4 +31,7 @@
 
     <string name="add_syllabus_item">Add Syllabus Item</string>
 
+    <string name="remove">Remove from Course List</string>
+    <string name="change_course_name">Edit Course Name</string>
+
 </resources>

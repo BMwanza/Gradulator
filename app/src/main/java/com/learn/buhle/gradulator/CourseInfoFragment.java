@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -273,11 +274,7 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
                 {
                     validString = ErrorManager.validateString(textView.getText().toString());
 
-                    mSyllabusItemScore.setText(validString);
-                    mSyllabusItem.setGradeAchieved(Double.parseDouble(validString));
-                    mScoreState.setText(R.string.achieved_grade);
-                    mCourse.updateMarks();
-                    mCurrentGradeScore.setText(ErrorManager.formatValues(mCourse.getCurrGrade()));
+                    inputSyllasbusItemGrade(validString);
 
                 }
                 else
@@ -308,8 +305,8 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
         }
 
         @Override
-        public void onFocusChange(View view, boolean b) {
-            if(b)
+        public void onFocusChange(View view, boolean hasFoucs) {
+            if(hasFoucs)
             {
                 if(mSyllabusItem.isMarked())
                 {
@@ -326,6 +323,10 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
                 {
                     mSyllabusItemScore.getText().clear();
                 }
+            }
+            else
+            {
+                inputSyllasbusItemGrade(ErrorManager.validateString(mSyllabusItemScore.getText().toString()));
             }
         }
 
@@ -352,6 +353,17 @@ public class CourseInfoFragment extends Fragment implements TextView.OnEditorAct
                 mSyllabusItemScore.setText(String.format("%.1f", item.getGradeAchieved()) + "%");
                 mScoreState.setText(R.string.achieved_grade);
             }
+
+        }
+
+        private void inputSyllasbusItemGrade(String grade) {
+
+            //Assume that the String is already Validated
+            mSyllabusItemScore.setText(grade);
+            mSyllabusItem.setGradeAchieved(Double.parseDouble(grade));
+            mScoreState.setText(R.string.achieved_grade);
+            mCourse.updateMarks();
+            mCurrentGradeScore.setText(ErrorManager.formatValues(mCourse.getCurrGrade()));
 
         }
 

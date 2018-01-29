@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,6 +69,8 @@ public class CourseListFragment extends Fragment
         inflater.inflate(R.menu.course_list_menu, menu);
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -81,6 +84,20 @@ public class CourseListFragment extends Fragment
 
 
         return true;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.remove_course:
+                //Remove Syllbus Item
+                return true;
+            case R.id.edit_name:
+                //Edit Syllabus item
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     public void updateInterface(int position)
@@ -120,7 +137,7 @@ public class CourseListFragment extends Fragment
 
     //******************************** PRIVATE ViewHolder CLASS***************************************//
     /***************************************************************************************************/
-    private class CourseHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    private class CourseHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener
     {
         private Course mCourse;
         private TextView mCourseTitle;
@@ -131,6 +148,7 @@ public class CourseListFragment extends Fragment
             super(itemView);
 
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
             mCourseTitle = (TextView) itemView.findViewById(R.id.course_title);
             mCourseScore = (TextView) itemView.findViewById(R.id.course_grade_score);
         }
@@ -159,6 +177,14 @@ public class CourseListFragment extends Fragment
             {
                 mCourseScore.setText("Cuurent Grade: " + ErrorManager.formatValues(mCourse.getCurrGrade()));
             }
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v,
+                                        ContextMenu.ContextMenuInfo menuInfo) {
+
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.course_context_menu, menu);
         }
     }
 
