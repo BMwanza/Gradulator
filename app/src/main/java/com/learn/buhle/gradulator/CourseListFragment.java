@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by BMwanza on 1/6/2018.
@@ -69,6 +72,27 @@ public class CourseListFragment extends Fragment
         inflater.inflate(R.menu.course_list_menu, menu);
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = -1;
+        CourseAdapter adapter = (CourseAdapter) mRecyclerView.getAdapter();
+        try {
+            position =  adapter.getPosition();
+        } catch (Exception e) {
+            Log.d(TAG, e.getLocalizedMessage(), e);
+            return super.onContextItemSelected(item);
+        }
+        switch (item.getItemId()) {
+            case R.id.remove_course:
+                // do your stuff
+                break;
+            case R.id.edit_name:
+                // do your stuff
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
 
 
     @Override
@@ -86,19 +110,6 @@ public class CourseListFragment extends Fragment
         return true;
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.remove_course:
-                //Remove Syllbus Item
-                return true;
-            case R.id.edit_name:
-                //Edit Syllabus item
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
 
     public void updateInterface(int position)
     {
@@ -193,6 +204,7 @@ public class CourseListFragment extends Fragment
     private class CourseAdapter extends RecyclerView.Adapter<CourseHolder>
     {
         private ArrayList<Course> mCourses;
+        private int position;
 
         public CourseAdapter(ArrayList<Course> courses)
         {
@@ -209,12 +221,20 @@ public class CourseListFragment extends Fragment
         }
 
         @Override
-        public void onBindViewHolder(CourseHolder holder, int position)
+        public void onBindViewHolder(CourseHolder holder, final int position)
         {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    setPosition(position);
+                    return false;
+                }
+            });
             holder.setIsRecyclable(false);
             Course course = mCourses.get(position);
             holder.bindToCourseData(course);
         }
+
 
 
         @Override
@@ -224,6 +244,14 @@ public class CourseListFragment extends Fragment
 
         public void setCourses(ArrayList<Course> courses) {
             mCourses = courses;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
         }
     }
 
