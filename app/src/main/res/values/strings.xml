@@ -32,6 +32,10 @@
     <string name="add_syllabus_item">Add Syllabus Item</string>
 
     <string name="remove">Remove from Course List</string>
+    <string name="remove_warning">You will lose all of this course\'s information</string>
+    <string name="cannot_undo">This process cannot be undone</string>
+
+
     <string name="change_course_name">Edit Course Name</string>
 
 </resources>

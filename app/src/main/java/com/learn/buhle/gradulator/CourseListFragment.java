@@ -3,6 +3,7 @@ package com.learn.buhle.gradulator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
 
@@ -26,7 +28,11 @@ import static android.content.ContentValues.TAG;
 
 public class CourseListFragment extends Fragment
 {
-    private static final int NEW_CRIME_REQUEST_CODE = 0;
+    private static final int NEW_COURSE_REQUEST_CODE = 0;
+    private static final int REMOVE_COURSE_REQUEST_CODE = 1;
+
+    private static final String COURSE_ID_RETURN = "course id return";
+    private static final String REMOVE_WARNING_TAG = "warning dialog tag";
     private static final String COURSE_TITLE_RESULT = "course title";
     private static final String COURSE_TARGET_RESULT = "target grade";
 
@@ -84,7 +90,14 @@ public class CourseListFragment extends Fragment
         }
         switch (item.getItemId()) {
             case R.id.remove_course:
-                // do your stuff
+
+                //Create warning dialog if they are sure they want to remove the course
+                String courseTitle = adapter.getCourse(position).getCourseName();
+                UUID courseID = adapter.getCourse(position).getCourseID();
+                RemoveCourseWarningFragment removeWarning = RemoveCourseWarningFragment.newInstance(courseTitle, courseID);
+                removeWarning.setTargetFragment(CourseListFragment.this, REMOVE_COURSE_REQUEST_CODE);
+                removeWarning.show(getFragmentManager(), REMOVE_WARNING_TAG);
+
                 break;
             case R.id.edit_name:
                 // do your stuff
@@ -102,7 +115,7 @@ public class CourseListFragment extends Fragment
         if(item.getItemId() == R.id.menu_item_add_course)
         {
             Intent intent = new Intent(getActivity(), NewCourseActivity.class);
-            startActivityForResult(intent, NEW_CRIME_REQUEST_CODE);
+            startActivityForResult(intent, NEW_COURSE_REQUEST_CODE);
 
         }
 
@@ -130,16 +143,25 @@ public class CourseListFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        UUID courseID;
         String courseTitle;
         double courseTarget;
 
-        if(requestCode == NEW_CRIME_REQUEST_CODE)
+        if(requestCode == NEW_COURSE_REQUEST_CODE)
         {
             if(resultCode == Activity.RESULT_OK)
             {
                 courseTitle = data.getStringExtra(COURSE_TITLE_RESULT);
                 courseTarget = data.getDoubleExtra(COURSE_TARGET_RESULT, 0);
                 CourseManager.getInstance(getActivity()).addCourse(new Course(courseTitle, courseTarget));
+                updateInterface(0);
+            }
+        }
+        else if(requestCode == REMOVE_COURSE_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
+                courseID = (UUID) data.getSerializableExtra(COURSE_ID_RETURN);
+                Course remove = CourseManager.getInstance(getActivity()).getCourse(courseID);
+                CourseManager.getInstance(getActivity()).removeCourse(remove);
                 updateInterface(0);
             }
         }
@@ -248,6 +270,10 @@ public class CourseListFragment extends Fragment
 
         public int getPosition() {
             return position;
+        }
+
+        public Course getCourse(int pos){
+            return mCourses.get(pos);
         }
 
         public void setPosition(int position) {
