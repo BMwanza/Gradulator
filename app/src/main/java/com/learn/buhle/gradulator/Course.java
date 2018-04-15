@@ -7,6 +7,7 @@ import java.util.UUID;
  * Created by BMwanza on 1/2/2018.
  */
 
+//Test comment
 public class Course extends ListItem {
 
     private static final double STARTING_GRADE = 0.0;
